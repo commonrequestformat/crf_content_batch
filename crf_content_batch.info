@@ -1,0 +1,7 @@
+name = CRF Content Batch
+description = Holds shared functionality for CRF batch content types.
+core = 7.x
+package = CRF
+version = 7.x-1.0
+project = crf_content_batch
+features[features_api][] = api:1

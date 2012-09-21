@@ -1,0 +1,74 @@
+<?php
+/**
+ * @file
+ * Code for the crf_content_batch feature.
+ */
+
+
+/**
+ * Implements hook_menu().
+ */
+function crf_content_batch_menu() {
+  $items['node/%node/graphs'] = array(
+    'title' => 'Graphs',
+    'page callback' => 'crf_content_batch_graphs',
+    'page arguments' => array(1),
+    'access callback' => 'crf_content_batch_menu_access_graphs',
+    'access arguments' => array(1),
+    'type' => MENU_LOCAL_TASK,
+  );
+  $items['node/%node/map'] = array(
+    'title' => 'Map',
+    'page callback' => 'crf_content_batch_map',
+    'page arguments' => array(1),
+    'access callback' => 'crf_content_batch_menu_access_maps',
+    'access arguments' => array(1),
+    'type' => MENU_LOCAL_TASK,
+  );
+
+  return $items;
+}
+
+
+function crf_content_batch_menu_access_graphs($node) {
+  switch ($node->type) {
+    case 'indicator_data_batch':
+      if (user_access('access content')) {
+        return TRUE;
+      }
+  }
+}
+
+
+function crf_content_batch_menu_access_maps($node) {
+  switch ($node->type) {
+    case 'assessments_batch':
+    case 'indicator_data_batch':
+      if (user_access('access content')) {
+        return TRUE;
+      }
+  }
+}
+
+
+function crf_content_batch_graphs($node) {
+  switch ($node->type) {
+    case 'indicator_data_batch':
+      return views_embed_view('indicator_data_batch', 'graphs', $node->uuid);
+  }
+}
+
+
+function crf_content_batch_map($node) {
+  switch ($node->type) {
+    case 'assessments_batch':
+      return views_embed_view('assessments_batch', 'map', $node->uuid);
+    case 'indicator_data_batch':
+      return views_embed_view('indicator_data_batch', 'map', $node->uuid);
+  }
+}
+
+
+
+
+

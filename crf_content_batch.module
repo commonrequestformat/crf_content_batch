@@ -54,7 +54,9 @@ function crf_content_batch_menu_access_maps($node) {
 function crf_content_batch_graphs($node) {
   switch ($node->type) {
     case 'indicator_data_batch':
-      return views_embed_view('indicator_data_batch', 'graphs', $node->uuid);
+      $output = views_embed_view('indicator_data_batch', 'graphs', $node->uuid);
+      $output .= views_embed_view('situational_indicator_data_batch', 'graphs', $node->uuid);
+      return $output;
   }
 }
 
